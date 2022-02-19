@@ -13,11 +13,11 @@ The interval can be changed in the config.
 5. Install the dependencies: `pip install -r requirements.txt` <br/>
 6. Run the script: 
 
-`python python vfs_appointment_bot/vfs_appointment_bot.py '<vfs_centre>' '<visa_category>' '<visa_subcategory>'`
+`python vfs_appointment_bot/vfs_appointment_bot.py '<vfs_centre>' '<visa_category>' '<visa_subcategory>'`
 
 OR
 
-`python python vfs_appointment_bot/vfs_appointment_bot.py`
+`python vfs_appointment_bot/vfs_appointment_bot.py`
 
 It will take the values as input from the user
 
