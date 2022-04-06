@@ -1,3 +1,4 @@
+from cmath import exp
 import email
 import time
 import logging
@@ -8,6 +9,7 @@ from _ConfigReader import _ConfigReader
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import NoSuchElementException
 
 class _VfsClient:
 
@@ -54,7 +56,13 @@ class _VfsClient:
         _login_button = self._web_driver.find_element_by_xpath("//button/span")
         _login_button.click()
         time.sleep(10)
-        logging.debug("Logged in")
+        _login_button = self._web_driver.find_element_by_xpath("//button/span")
+        
+        if _login_button != None:
+            logging.debug("Unable to login. VFS website is not responding")
+            raise Exception("Unable to login. VFS website is not responding")
+        else:
+            logging.debug("Logged in successfully")
 
     def _get_appointment_date(self, visa_centre, category, sub_category):
         logging.info("Getting appointment date: Visa Centre: {}, Category: {}, Sub-Category: {}".format(visa_centre, category, sub_category)) 
@@ -70,11 +78,16 @@ class _VfsClient:
         _vfs_centre_dropdown.click()
         time.sleep(2)
 
-        _vfs_centre = self._web_driver.find_element_by_xpath(
-            "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(visa_centre)
-        )
+        try:
+            _vfs_centre = self._web_driver.find_element_by_xpath(
+                "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(visa_centre)
+            )
+        except NoSuchElementException:
+            logging.error("Visa centre not found: {}".format(_vfs_centre))
+            raise Exception("Visa centre not found: {}".format(_vfs_centre))
+        
         logging.debug("VFS Centre: " + _vfs_centre.text)
-        _vfs_centre.click()
+        self._web_driver.execute_script("arguments[0].click();", _vfs_centre)
         time.sleep(5)
         
         _category_dropdown = self._web_driver.find_element_by_xpath(
@@ -83,11 +96,16 @@ class _VfsClient:
         _category_dropdown.click()
         time.sleep(5)
         
-        _category = self._web_driver.find_element_by_xpath(
-            "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(category)
-        )
+        try:
+            _category = self._web_driver.find_element_by_xpath(
+                "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(category)
+            )
+        except NoSuchElementException:
+            logging.error("Category not found: {}".format(_category))
+            raise Exception("Category not found: {}".format(_category))
+        
         logging.debug("Category: " + _category.text)
-        _category.click()
+        self._web_driver.execute_script("arguments[0].click();", _category)
         time.sleep(5)
         
         _subcategory_dropdown = self._web_driver.find_element_by_xpath(
@@ -96,10 +114,15 @@ class _VfsClient:
      
         self._web_driver.execute_script("arguments[0].click();", _subcategory_dropdown)
         time.sleep(5)
-
-        _subcategory = self._web_driver.find_element_by_xpath(
-            "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(sub_category)
-        )
+        
+        try:
+            _subcategory = self._web_driver.find_element_by_xpath(
+                "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(sub_category)
+            )
+        except NoSuchElementException:
+            logging.error("Sub-category not found: {}".format(_subcategory))
+            raise Exception("Sub-category not found: {}".format(_subcategory))
+        
         self._web_driver.execute_script("arguments[0].click();", _subcategory)
         logging.debug("Sub-Cat: " + _subcategory.text)
         time.sleep(5)
