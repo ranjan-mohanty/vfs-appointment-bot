@@ -46,8 +46,8 @@ if __name__ == "__main__":
             logging.debug("Sleeping for {} seconds".format(_interval))
             countdown(int(_interval))
         except Exception as e:
-            logging.exception("message")
-            logging.debug("Error: ", e)
+            logging.info(e.args[0])
+            logging.debug(e, exc_info=True, stack_info=True)
             countdown(int(60))
             pass
         print("\n")
