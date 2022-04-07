@@ -56,13 +56,18 @@ class _VfsClient:
         _login_button = self._web_driver.find_element_by_xpath("//button/span")
         _login_button.click()
         time.sleep(10)
-        _login_button = self._web_driver.find_element_by_xpath("//button/span")
         
-        if _login_button != None:
+    def _validate_login(self):
+        try:
+            _new_booking_button = self._web_driver.find_element_by_xpath("//section/div/div[2]/button/span")
+            if _new_booking_button == None:
+                logging.debug("Unable to login. VFS website is not responding")
+                raise Exception("Unable to login. VFS website is not responding")
+            else:
+                logging.debug("Logged in successfully")
+        except:
             logging.debug("Unable to login. VFS website is not responding")
             raise Exception("Unable to login. VFS website is not responding")
-        else:
-            logging.debug("Logged in successfully")
 
     def _get_appointment_date(self, visa_centre, category, sub_category):
         logging.info("Getting appointment date: Visa Centre: {}, Category: {}, Sub-Category: {}".format(visa_centre, category, sub_category)) 
@@ -72,22 +77,21 @@ class _VfsClient:
         )
         _new_booking_button.click()
         time.sleep(5)
-        _vfs_centre_dropdown = self._web_driver.find_element_by_xpath(
+        _visa_centre_dropdown = self._web_driver.find_element_by_xpath(
             "//mat-form-field/div/div/div[3]"
         )
-        _vfs_centre_dropdown.click()
+        _visa_centre_dropdown.click()
         time.sleep(2)
 
         try:
-            _vfs_centre = self._web_driver.find_element_by_xpath(
+            _visa_centre = self._web_driver.find_element_by_xpath(
                 "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(visa_centre)
             )
         except NoSuchElementException:
-            logging.error("Visa centre not found: {}".format(_vfs_centre))
-            raise Exception("Visa centre not found: {}".format(_vfs_centre))
+            raise Exception("Visa centre not found: {}".format(visa_centre))
         
-        logging.debug("VFS Centre: " + _vfs_centre.text)
-        self._web_driver.execute_script("arguments[0].click();", _vfs_centre)
+        logging.debug("VFS Centre: " + _visa_centre.text)
+        self._web_driver.execute_script("arguments[0].click();", _visa_centre)
         time.sleep(5)
         
         _category_dropdown = self._web_driver.find_element_by_xpath(
@@ -101,8 +105,7 @@ class _VfsClient:
                 "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(category)
             )
         except NoSuchElementException:
-            logging.error("Category not found: {}".format(_category))
-            raise Exception("Category not found: {}".format(_category))
+            raise Exception("Category not found: {}".format(category))
         
         logging.debug("Category: " + _category.text)
         self._web_driver.execute_script("arguments[0].click();", _category)
@@ -120,8 +123,7 @@ class _VfsClient:
                 "//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{}')]".format(sub_category)
             )
         except NoSuchElementException:
-            logging.error("Sub-category not found: {}".format(_subcategory))
-            raise Exception("Sub-category not found: {}".format(_subcategory))
+            raise Exception("Sub-category not found: {}".format(sub_category))
         
         self._web_driver.execute_script("arguments[0].click();", _subcategory)
         logging.debug("Sub-Cat: " + _subcategory.text)
@@ -137,6 +139,7 @@ class _VfsClient:
         self._web_driver.get("https://visa.vfsglobal.com/ind/en/deu/login")
 
         self._login()
+        self._validate_login()
 
         _message = self._get_appointment_date(visa_centre, category, sub_category)
         logging.debug("Message: " + _message.text)
