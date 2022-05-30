@@ -65,7 +65,7 @@ class _VfsClient:
                 raise Exception("Unable to login. VFS website is not responding")
             else:
                 logging.debug("Logged in successfully")
-        except:
+        except Exception:
             logging.debug("Unable to login. VFS website is not responding")
             raise Exception("Unable to login. VFS website is not responding")
 
@@ -132,12 +132,22 @@ class _VfsClient:
         # read contents of the text box
         return self._web_driver.find_element_by_xpath("//div[4]/div")
 
-    def check_if_earlier(self, message, date):
+    def _check_if_earlier(self, message, date):
         matches = re.match(r'Earliest Available Slot : (\d{2}/\d{2}/\d{4})', message)
-        return datetime.strptime(matches.group(1), "%d/%m/%Y") <= datetime.strptime(date, "%d/%m/%Y")
+        return datetime.strptime(matches.group(1), "%d/%m/%Y") <= datetime.strptime(date, "%Y-%m-%d")
+
+    def _is_message_valid(self, message, limit_date):
+        if len(message) == 0 or message == "No appointment slots are currently available" or message == "Currently No slots are available for selected category, please confirm waitlist\nTerms and Conditions":
+            return False
+        if not limit_date:
+            return True
+        return self._check_if_earlier(message, limit_date)
 
     def check_slot(self, visa_centre, category, sub_category):
+        message_sent = False
         self._init_web_driver()
+
+        limit_date = self._config_reader.read_prop("VFS", "only_if_earlier")
 
         # open the webpage
         self._web_driver.get("https://visa.vfsglobal.com/idn/en/nld/login")
@@ -146,21 +156,23 @@ class _VfsClient:
         self._validate_login()
 
         _message = self._get_appointment_date(visa_centre, category, sub_category)
-        logging.debug("Message: " + _message.text)
+        logging.info("Message: " + _message.text)
 
-        if len(_message.text) != 0 and _message.text != "No appointment slots are currently available" and _message.text != "Currently No slots are available for selected category, please confirm waitlist\nTerms and Conditions":
+        if self._is_message_valid(_message.text, limit_date):
             logging.info("Appointment slots available: {}".format(_message.text))
-            if self.check_if_earlier(_message.text, "01/07/2022"):
-                ts = time.time()
-                st = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
-                message = "{} at {}".format(_message.text, st)
-                print('message: ', message)
-                # self._twilio_client.send_message(message)
-                # self._twilio_client.call()
-            else:
-                logging.info("No slots available before 01/07/2022")
+            ts = time.time()
+            st = datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
+            message = "{} at {}".format(_message.text, st)
+            self._twilio_client.send_message(message)
+            message_sent = True
+            # self._twilio_client.call()
+        elif limit_date:
+            logging.info("No slots available before {}".format(limit_date))
         else:
             logging.info("No slots available")
-        # Close the browser
+        self.close_browser()
+        return message_sent
+
+    def close_browser(self):
         self._web_driver.close()
         self._web_driver.quit()
