@@ -137,7 +137,7 @@ class _VfsClient:
         return datetime.strptime(matches.group(1), "%d/%m/%Y") <= datetime.strptime(date, "%Y-%m-%d")
 
     def _is_message_valid(self, message, limit_date):
-        if len(message) == 0 or message == "No appointment slots are currently available" or message == "Currently No slots are available for selected category, please confirm waitlist\nTerms and Conditions":
+        if len(message) == 0 or message.startswith("No appointment slots are currently available") or message == "Currently No slots are available for selected category, please confirm waitlist\nTerms and Conditions":
             return False
         if not limit_date:
             return True
