@@ -28,7 +28,9 @@ OR
 
 It will take the values as input from the user
 
+** Please refer to the screenshot for more details regarding the inputs.
 
+![VFS Appointment Form Screenshot](./assets/vfs-appointment-form.png)
 ## Dependency
 - Create an account on Twilio to get text and call alerts. Sign up [here](https://www.twilio.com/try-twilio) for a trial account to get credits upto worth $10.
 - Install `geekodriver`
