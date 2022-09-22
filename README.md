@@ -53,4 +53,4 @@ Make it executable (note this shouldn't be necessary, unless the unzipped file d
 
 Add the driver to your PATH in ~/.bashrc so other tools can find it:
 
-`export PATH=$PATH:/path-to-extracted-file/geckodrive`
+`export PATH=$PATH:/path-to-extracted-file/geckodriver`
