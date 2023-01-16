@@ -27,7 +27,7 @@ class _TwilioClient:
             client.messages.create(to=self.to_num, from_=self.from_num, body=message)
             logging.debug("Message sent")
         except Exception as e:
-            print("Some problem occured in sending message: {}".format(e))
+            print("Some problem occured in sending message via Twilio: {}".format(e))
 
 
     def call(self):
@@ -41,4 +41,4 @@ class _TwilioClient:
             call = client.calls.create(from_=self.from_num, to=self.to_num, url=self.url)
             logging.debug("Call initiated")
         except Exception as e:
-            print("Some problem occured in calling: {}".format(e))
+            print("Some problem occured in calling via Twilio: {}".format(e))

@@ -24,7 +24,7 @@ def _read_command_line_args():
     if len(sys.argv) != 4:
         return _input()
     return sys.argv[1], sys.argv[2], sys.argv[3]
-    
+
 
 if __name__ == "__main__":
     count = 1
@@ -33,9 +33,13 @@ if __name__ == "__main__":
 
     _vfs_client = _VfsClient()
     _config_reader = _ConfigReader()
-    _interval = _config_reader.read_prop("DEFAULT", "interval");
+    _interval = _config_reader.read_prop("DEFAULT", "interval")
+    _use_telegram = eval(_config_reader.read_prop("DEFAULT", "use_telegram"))
+    _use_twilio = eval(_config_reader.read_prop("DEFAULT", "use_twilio"))
     logging.debug("Interval: {}".format(_interval))
-    
+    logging.debug("Will use Telegram : {}".format(_use_telegram))
+    logging.debug("Will use Twilio : {}".format(_use_twilio))
+
     visa_centre, category, sub_category = _read_command_line_args()
 
     logging.info("Starting VFS Appointment Bot")
@@ -52,4 +56,3 @@ if __name__ == "__main__":
             pass
         print("\n")
         count += 1
- 
