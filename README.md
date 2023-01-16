@@ -34,8 +34,9 @@ It will take the values as input from the user
 
 ## Dependency
 
-1. Install `geckodriver`
-2. Setup client for Twilio/Telegram or both:
+1. Install Firefox Browser on your machine if not already installed.
+2. `geckodriver` (instructions to install geckodriver are written below)
+3. Setup client for Twilio/Telegram or both:
     - Create an account on Twilio to get text and call alerts. Sign up [here](https://www.twilio.com/try-twilio) for a trial account to get credits upto worth $10, OR
     - Create a new bot via Telegram and add it to a chat group where you want it to post messages to notify you. Check [this simple tutorial out](https://medium.com/codex/using-python-to-send-telegram-messages-in-3-simple-steps-419a8b5e5e2) if you don't know how to create a new bot and get its credentials. Once bot is created you need to add its credentials in `config/config.ini` file.
 
@@ -65,3 +66,4 @@ It will take the values as input from the user
 
 - [Ranjan Mohanty](https://github.com/ranjan-mohanty/)
 - [Bhavul Gauri](https://github.com/bhavul/)
+ t
