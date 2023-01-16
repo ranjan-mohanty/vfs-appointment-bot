@@ -42,23 +42,23 @@ It will take the values as input from the user
 
 ## How to install geckodriver
 
-Run these the commands:
+1. Run these the commands:
 
-`wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz`
+    - Linux (as an example) : `wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz`
 
-(You can find the download URL to the latest release of geckodriver on Github.)
+    (You can find the download URL to the latest release of geckodriver on Github. Check out [their latest release here](https://github.com/mozilla/geckodriver/releases) for your machine.)
 
-Extract the file with
+2. Extract the file with
 
-`tar -xvzf geckodriver*`
+    `tar -xvzf geckodriver*`
 
-Make it executable (note this shouldn't be necessary, unless the unzipped file doesn't have the execute bits set):
+3. Make it executable (note this shouldn't be necessary, unless the unzipped file doesn't have the execute bits set):
 
-`chmod +x geckodriver`
+    `chmod +x geckodriver`
 
-Add the driver to your PATH in ~/.bashrc so other tools can find it:
+4. Add the driver to your PATH in ~/.bashrc so other tools can find it:
 
-`export PATH=$PATH:/path-to-extracted-file/geckodriver`
+    `export PATH=$PATH:/path-to-extracted-file/geckodriver`
 
 
 ## Contributors
