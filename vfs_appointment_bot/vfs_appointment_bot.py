@@ -1,5 +1,5 @@
 import sys
-import logging
+import logging 
 
 from logging.config import fileConfig
 from _Timer import countdown
@@ -16,7 +16,7 @@ def _input():
     print("Enter the sub category: ")
     sub_category = input()
 
-    logging.debug("Visa centre: {}, Category: {}, Sub-Category: {}".format(visa_centre, category, sub_category))
+    logging.debug("Visa centre: {delhi}, Category: {employment}, Sub-Category: {employment}".format(visa_centre, category, sub_category))
 
     return visa_centre, category, sub_category
 
