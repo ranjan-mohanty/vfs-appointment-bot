@@ -65,6 +65,7 @@ If you prefer a more traditional approach, you can clone the source code from th
 5.  **Install dependencies:**
 
     ```bash
+    pip install poetry
     poetry install
     ```
 
