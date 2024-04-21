@@ -28,15 +28,27 @@ It is the preferred method for installing `vfs-appointment-bot`. Here's how to d
 
 If you prefer a more traditional approach, you can clone the source code from the project repository and install it manually:
 
-1.  **Create a virtual environment (Recommended):**
+1.  **Clone the repository:**
 
     ```bash
-    python3 -m venv venv  # Replace 'venv' with your desired virtual environment name
+    git clone https://github.com/ranjan-mohanty/vfs-appointment-bot
+    ```
+
+2.  **Navigate to the project directory:**
+
+    ```bash
+    cd vfs-appointment-bot
+    ```
+
+3.  **Create a virtual environment (Recommended):**
+
+    ```bash
+    python3 -m venv venv
     ```
 
     This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
 
-2.  **Activate the virtual environment:**
+4.  **Activate the virtual environment:**
 
     **Linux/macOS:**
 
@@ -50,22 +62,16 @@ If you prefer a more traditional approach, you can clone the source code from th
     venv\Scripts\activate
     ```
 
-3.  **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/ranjan-mohanty/vfs-appointment-bot
-    ```
-
-4.  **Navigate to the project directory:**
-
-    ```bash
-    cd vfs-appointment-bot
-    ```
-
 5.  **Install dependencies:**
 
     ```bash
     poetry install
+    ```
+
+6.  **Install playwright dependencies:**
+
+    ```bash
+    playwright install
     ```
 
 ## Usage

@@ -97,10 +97,12 @@ class VfsBot(ABC):
         Returns:
             Dict[str, str]: A dictionary containing appointment parameters.
         """
-        print(args.appointment_params, self.appointment_param_keys)
         appointment_params = {}
         for key in self.appointment_param_keys:
-            if args.appointment_params[key] is not None:
+            if (
+                getattr(args, "appointment_params") is not None
+                and args.appointment_params[key] is not None
+            ):
                 appointment_params[key] = args.appointment_params[key]
             else:
                 key_name = key.replace("_", " ")

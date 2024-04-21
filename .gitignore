@@ -5,6 +5,7 @@ eggs/
 .installed.cfg
 *.egg
 MANIFEST
+poetry.lock
 
 # Unit test / coverage reports
 .coverage
