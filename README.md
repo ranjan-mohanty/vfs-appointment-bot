@@ -1,68 +1,125 @@
-# VFS Germany Appointment Bot
+# VFS Appointment Bot
+
 [![GitHub license](https://img.shields.io/github/license/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/blob/main/LICENSE)
 [![GitHub forks](https://img.shields.io/github/forks/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/network)
 [![GitHub stars](https://img.shields.io/github/stars/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/stargazers)
 [![GitHub issues](https://img.shields.io/github/issues/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/issues)
 [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Franjan-mohanty%2Fvfs-appointment-bot)](https://twitter.com/intent/tweet?text=Check%20this%20out%20&url=https%3A%2F%2Fgithub.com%2Franjan-mohanty%2Fvfs-appointment-bot)
 
+This Python script(**vfs-appointment-bot**) automates checking for appointments at VFS Global portal in a specified country.
 
-A script to check the appointment slots.
+## Installation
 
-By default, it runs every 2 minutes and check for visa slots at VFS website and notifies the user by SMS/call/Telegram. <br/>
-The interval can be changed in the config.
+The `vfs-appointment-bot` script can be installed using two methods:
 
-## How to use
-1. Clone the repo: `git clone https://github.com/ranjan-mohanty/vfs-appointment-bot.git` <br/>
-2. Move into the repo: `cd vfs_appointment_bot` <br/>
-3. Update the config file (`config/config.ini`) with VFS, Twilio, Telegram credentials. Note that you can use either telegram, or twilio, or both. This can be specified with `use_telegram` and `use_twilio` config flags in same file.
-3. Create a new virtual environment: `python3 -m venv venv` or by using conda `conda create --name venv python=3.8`<br/>
-4. Activate the environment (might differ a bit for windows and MacOS): `source venv/bin/activate` / `conda activate venv` <br/>
-5. Install the dependencies: `pip install -r requirements.txt` <br/>
-6. Run the script:
+**1. Using pip:**
 
-`python vfs_appointment_bot/vfs_appointment_bot.py '<vfs_centre>' '<visa_category>' '<visa_subcategory>'`
+It is the preferred method for installing `vfs-appointment-bot`. Here's how to do it:
 
-OR
+1.  **Install using pip:**
 
-`python vfs_appointment_bot/vfs_appointment_bot.py`
+    ```bash
+    pip install vfs-appointment-bot
+    ```
 
-It will take the values as input from the user
+    This will download and install the `vfs-appointment-bot` package and its dependencies into your Python environment.
 
-** Please refer to the screenshot for more details regarding the inputs.
+**2. Manual Installation:**
 
-![VFS Appointment Form Screenshot](./assets/vfs-appointment-form.png)
+If you prefer a more traditional approach, you can clone the source code from the project repository and install it manually:
 
-## Dependency
+1.  **Create a virtual environment (Recommended):**
 
-1. Install Firefox Browser on your machine if not already installed.
-2. `geckodriver` (instructions to install geckodriver are written below)
-3. Setup client for Twilio/Telegram or both:
-    - Create an account on Twilio to get text and call alerts. Sign up [here](https://www.twilio.com/try-twilio) for a trial account to get credits upto worth $10, OR
-    - Create a new bot via Telegram and add it to a chat group where you want it to post messages to notify you. Check [this simple tutorial out](https://medium.com/codex/using-python-to-send-telegram-messages-in-3-simple-steps-419a8b5e5e2) if you don't know how to create a new bot and get its credentials. Once bot is created you need to add its credentials in `config/config.ini` file.
+    ```bash
+    python3 -m venv venv  # Replace 'venv' with your desired virtual environment name
+    ```
 
+    This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
 
-## How to install geckodriver
+2.  **Activate the virtual environment:**
 
-1. Run these the commands:
+    **Linux/macOS:**
 
-    - Linux (as an example) : `wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz`
+    ```bash
+    source venv/bin/activate
+    ```
 
-    (You can find the download URL to the latest release of geckodriver on Github. Check out [their latest release here](https://github.com/mozilla/geckodriver/releases) for your machine.)
+    **Windows:**
 
-2. Extract the file with
+    ```bash
+    venv\Scripts\activate
+    ```
 
-    `tar -xvzf geckodriver*`
+3.  **Clone the repository:**
 
-3. Make it executable (note this shouldn't be necessary, unless the unzipped file doesn't have the execute bits set):
+    ```bash
+    git clone https://github.com/ranjan-mohanty/vfs-appointment-bot
+    ```
 
-    `chmod +x geckodriver`
+4.  **Navigate to the project directory:**
 
-4. Add the driver to your PATH in ~/.bashrc so other tools can find it:
+    ```bash
+    cd vfs-appointment-bot
+    ```
 
-    `export PATH=$PATH:/path-to-extracted-file/geckodriver`
+5.  **Install dependencies:**
 
+    ```bash
+    poetry install
+    ```
 
-## Contributors
+## Usage
 
-- [Ranjan Mohanty](https://github.com/ranjan-mohanty/)
-- [Bhavul Gauri](https://github.com/bhavul/)
+1. **Command-Line Argument:**
+
+   The script requires the country code ([as per ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements)) to be provided as a command-line argument using the `-c` or `--country-code` option.
+
+2. **Running the Script:**
+
+   There are two ways to provide required appointment details:
+
+   - **Responding to User Prompts (recommended):**
+
+     ```bash
+     vfs-appointment-bot -c DE
+     ```
+
+     The script will prompt you to enter the required apponitment parameters for the specified country.
+
+   - **Using `-ap` or `--appointment-params`:**
+
+     Specify appointment details in a comma-separated (**not space-separated**) key-value format:
+
+     ```bash
+     vfs-appointment-bot -c DE -ap visa_center=X,visa_category=Y,visa_sub_category=Z
+     ```
+
+   The script will then connect to the VFS Global website for the specified country, search for available appointments using the provided or entered parameters, and potentially send notifications (depending on your configuration).
+
+## Supported Countries and Appointment Parameters
+
+The following table lists currently supported countries and their corresponding appointment parameters:
+
+| Country      | Appointment Parameters                        |
+| ------------ | --------------------------------------------- |
+| Germany (DE) | visa_category, visa_sub_category, visa_center |
+
+**Notes:**
+
+- Appointment parameters might vary depending on the specific country and visa type. Always consult VFS Global's website for the latest information.
+
+## Extending Country Support
+
+This script is currently designed to work with the VFS Global website for Germany. It might be possible to extend support for other countries by modifying the script to handle potential variations in website structure and parameter requirements across different VFS Global country pages.
+
+## Contributing
+
+We welcome contributions from the community to improve this project! Here's how you can get involved:
+
+- **Report issues:** If you encounter any bugs or problems with the script, please create an issue on the project's repository.
+- **Suggest improvements:** Do you have ideas for making the script more user-friendly or feature-rich? Feel free to create an issue or pull request on the repository.
+- **Submit pull requests:** If you've made code changes that you think would benefit the project, create a pull request on the repository. Please follow any contribution guidelines outlined in a CONTRIBUTING.md file.
+
+## Disclaimer
+
+This script is provided as-is and is not affiliated with VFS Global. It's your responsibility to ensure you're complying with VFS Global's terms and conditions when using this script. Be aware that website structures and appointment availability mechanisms might change over time.
