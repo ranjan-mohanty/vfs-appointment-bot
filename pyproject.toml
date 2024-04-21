@@ -1,0 +1,31 @@
+# Project metadata
+[tool.poetry]
+name = "vfs-appointment-bot"
+version = "1.0.0-rc1"
+description = "VFS Appointment Bot - This script automates checking for appointments at VFS Global offices in a specified country."
+authors = ["Ranjan Mohanty <ranjan@duck.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["vfs", "vfs-bot", "vfs-appointment-bot", "visa-appointment-bot"]
+
+# URLs
+[tool.poetry.urls]
+repository = "https://github.com/ranjan-mohanty/vfs-appointment-bot/blob/main/README.md"
+homepage = "https://github.com/ranjan-mohanty/vfs-appointment-bot/blob/main"
+
+# Build System
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Dependencies
+[tool.poetry.dependencies]
+python = "^3.9"
+playwright = "^1.43.0"
+playwright-stealth = "^1.0.6"
+twilio = "^9.0.4"
+tqdm = "^4.66.2"
+
+#Entry points
+[tool.poetry.scripts]
+vfs-appointment-bot = "vfs_appointment_bot.main:main"
