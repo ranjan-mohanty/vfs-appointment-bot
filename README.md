@@ -1,9 +1,16 @@
 # VFS Appointment Bot
 
-[![GitHub license](https://img.shields.io/github/license/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/blob/main/LICENSE)
-[![GitHub forks](https://img.shields.io/github/forks/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/network)
-[![GitHub stars](https://img.shields.io/github/stars/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/issues)
+[![GitHub License](https://img.shields.io/github/license/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/blob/main/LICENSE)
+[![GitHub Release](https://img.shields.io/github/v/release/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/releases)
+[![PyPI - Version](https://img.shields.io/pypi/v/vfs-appointment-bot)](https://pypi.org/project/vfs-appointment-bot/)
+[![Downloads](https://static.pepy.tech/badge/vfs-appointment-bot)](https://pepy.tech/project/vfs-appointment-bot)
+[![GitHub forks](https://img.shields.io/github/forks/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/forks)
+[![GitHub Repo stars](https://img.shields.io/github/stars/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/stargazers)
+
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ranjan-mohanty/vfs-appointment-bot/build.yml)](https://github.com/ranjan-mohanty/vfs-appointment-bot/actions/workflows/build.yml)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/ranjan-mohanty/vfs-appointment-bot/badge)](https://securityscorecards.dev/viewer/?uri=github.com/ranjan-mohanty/vfs-appointment-bot)
+[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/issues)
+![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/ranjan-mohanty/vfs-appointment-bot)
 [![Twitter](https://img.shields.io/twitter/url?style=social&url=https%3A%2F%2Fgithub.com%2Franjan-mohanty%2Fvfs-appointment-bot)](https://twitter.com/intent/tweet?text=Check%20this%20out%20&url=https%3A%2F%2Fgithub.com%2Franjan-mohanty%2Fvfs-appointment-bot)
 
 This Python script(**vfs-appointment-bot**) automates checking for appointments at VFS Global portal in a specified country.
