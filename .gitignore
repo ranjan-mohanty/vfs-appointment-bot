@@ -28,3 +28,5 @@ venv
 
 #Logs
 app.log
+
+config/
