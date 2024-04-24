@@ -5,6 +5,7 @@ from typing import Dict, List, Optional
 
 from playwright.sync_api import Page
 
+from vfs_appointment_bot.utils.date_utils import extract_date_from_string
 from vfs_appointment_bot.vfs_bot.vfs_bot import VfsBot
 
 
@@ -60,9 +61,7 @@ class VfsBotDe(VfsBot):
 
         page.get_by_role("button", name="Sign In").click()
 
-        if page.get_by_role("button", name="Start New Booking") is None:
-            logging.error("Login failed: Start New Booking button not found")
-            raise Exception("Login failed")
+        page.wait_for_selector("button[role=button][name='Start New Booking']")
         logging.info("Logged in successfully")
 
     def pre_login_steps(self, page: Page) -> None:
@@ -78,7 +77,7 @@ class VfsBotDe(VfsBot):
         policies_reject_button = page.get_by_role("button", name="Reject All")
         if policies_reject_button is not None:
             policies_reject_button.click()
-            logging.info("Rejected all cookie policies")
+            logging.debug("Rejected all cookie policies")
 
     def check_for_appontment(
         self, page: Page, appointment_params: Dict[str, str]
@@ -101,72 +100,41 @@ class VfsBotDe(VfsBot):
                 including a timestamp of the check, or None if no appointments found.
         """
         page.get_by_role("button", name="Start New Booking").click()
+
         # Select Visa Centre
-        visa_centre_dropdown = page.wait_for_selector('mat-form-field')
-
-        # Click on the mat-form-field to open the dropdown
+        visa_centre_dropdown = page.wait_for_selector("mat-form-field")
         visa_centre_dropdown.click()
-
-        # Wait for the dropdown options to appear
-        page.wait_for_selector('mat-option')
-
-        # Select the option by its text
-        visa_centre_dropdown_option = page.wait_for_selector('mat-option:has-text("New Delhi - Visa Application Centre")')
+        page.wait_for_selector("mat-option")
+        visa_centre_dropdown_option = page.wait_for_selector(
+            f'mat-option:has-text("{appointment_params.get("visa_center")}")'
+        )
         visa_centre_dropdown_option.click()
 
-        # page.select_option('mat-option', label='New Delhi - Visa Application Centre')
-        # visa_centre_option = page.locator(
-        #     f"//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{appointment_params.visa_center}')]"
-        # )
-        # visa_centre_option.click()
-
-        # # Select Category
-        # category_dropdown = page.locator("//div[@id='mat-select-value-3']")
-        # category_dropdown.click()
-        # category_option = page.locator(
-        #     f"//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{appointment_params.visa_category}')]"
-        # )
-        # category_option.click()
         # Select Visa Category
-        visa_category_dropdown = page.query_selector_all('mat-form-field')[1]
-
+        visa_category_dropdown = page.query_selector_all("mat-form-field")[1]
         visa_category_dropdown.click()
-
-        # Wait for the dropdown options to appear
-        page.wait_for_selector('mat-option')
-
-        # Select the option by its text
-        visa_category_dropdown_option = page.wait_for_selector('mat-option:has-text("National Visa (stay of more than 90 days): Employment")')
+        page.wait_for_selector("mat-option")
+        visa_category_dropdown_option = page.wait_for_selector(
+            f'mat-option:has-text("{appointment_params.get("visa_sub_category")}")'
+        )
         visa_category_dropdown_option.click()
 
-        # # Select Subcategory
-        # subcategory_dropdown = page.locator("//div[@id='mat-select-value-5']")
-        # subcategory_dropdown.click()
-        # subcategory_option = page.locator(
-        #     f"//mat-option[starts-with(@id,'mat-option-')]/span[contains(text(), '{appointment_params.visa_sub_category}')]"
-        # )
-        # subcategory_option.click()
-        visa_subcategory_dropdown = page.query_selector_all('mat-form-field')[2]
-
+        # Select Subcategory
+        visa_subcategory_dropdown = page.query_selector_all("mat-form-field")[2]
         visa_subcategory_dropdown.click()
-
-        # Wait for the dropdown options to appear
-        page.wait_for_selector('mat-option')
-
-        # Select the option by its text
-        visa_subcategory_dropdown_option = page.wait_for_selector('mat-option:has-text("Employment: any other employment (also vocational training)")')
+        page.wait_for_selector("mat-option")
+        visa_subcategory_dropdown_option = page.wait_for_selector(
+            f'mat-option:has-text("{appointment_params.get("visa_sub_category")}")'
+        )
         visa_subcategory_dropdown_option.click()
+
         try:
             appointment_date_element = page.wait_for_selector("div.alert")
-            print(appointment_date_element)
-            date_text = appointment_date_element.text_content()
-            print(appointment_date_element.text_content())
-            if (
-                len(date_text) != 0
-            ):
-                ts = time.time()
-                st = datetime.datetime.fromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S")
-                return [f"message = {date_text} at {st}"]
-        except Exception as e:
-            print("Error '{0}' occured. Arguments {1}.".format(e.message, e.args))
+            appointment_date_text = appointment_date_element.text_content()
+            appointment_date = extract_date_from_string(appointment_date_text)
+            if appointment_date is not None and len(appointment_date) > 0:
+                return [appointment_date]
+        except Exception:
+            return None
+
         return None

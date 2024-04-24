@@ -8,7 +8,15 @@ from playwright.sync_api import sync_playwright
 from playwright_stealth import stealth_sync
 
 from vfs_appointment_bot.utils.config_reader import get_config_value
-from vfs_appointment_bot.notification.notification_client_factory import get_notification_client
+from vfs_appointment_bot.notification.notification_client_factory import (
+    get_notification_client,
+)
+
+
+class LoginError(Exception):
+    """Exception raised when login fails."""
+
+    pass
 
 
 class VfsBot(ABC):
@@ -27,7 +35,7 @@ class VfsBot(ABC):
         self.country_code = None
         self.appointment_param_keys: List[str] = []
 
-    def run(self, args: argparse.Namespace=None) -> None:
+    def run(self, args: argparse.Namespace = None) -> None:
         """
         Starts the VFS bot for appointment checking and notification.
 
@@ -68,34 +76,28 @@ class VfsBot(ABC):
                 self.login(page, email_id, password)
                 logging.info("Logged in successfully")
             except Exception as e:
-                logging.error(f"Login failed: {e}")
                 browser.close()
-                return
+                raise LoginError(
+                    f"\033[1;31mLogin failed. Please verify your username and password by logging in to the browser and try again.\033[0m"
+                )
 
             logging.info(f"Checking appointments for {appointment_params}")
-            dates = self.check_for_appontment(page, appointment_params)
-            if dates:
-                # Log successful appointment finding
-                logging.info(f"Found appointments on: {', '.join(dates)}")
-                self.notify_appointment(dates)
-            else:
-                # Log no appointments found
-                logging.info("No appointments found for the specified criteria.")
-
+            try:
+                dates = self.check_for_appontment(page, appointment_params)
+                if dates:
+                    # Log successful appointment finding
+                    logging.info(
+                        f"\033[1;32mFound appointments on: {', '.join(dates)} \033[0m"
+                    )
+                    self.notify_appointment(appointment_params, dates)
+                else:
+                    # Log no appointments found
+                    logging.info(
+                        "\033[1;33mNo appointments found for the specified criteria.\033[0m"
+                    )
+            except Exception as e:
+                logging.error(f"Appointment check failed: {e}")
             browser.close()
-
-    def notify_appointment(self, dates: List[str]):
-        """
-            Collects appointment dates and sends notification to the user.
-
-            This method is responsible for collecting appointment dates and sending
-
-            Args:
-                dates (List[str]): A list of appointment dates.
-
-        """
-        channel = get_notification_client("telegram")
-        channel.send_notification(', '.join(dates))
 
     def get_appointment_params(self, args: argparse.Namespace) -> Dict[str, str]:
         """
@@ -122,6 +124,28 @@ class VfsBot(ABC):
                 key_name = key.replace("_", " ")
                 appointment_params[key] = input(f"Enter the {key_name}: ")
         return appointment_params
+
+    def notify_appointment(self, appointment_params: Dict[str, str], dates: List[str]):
+        """
+        Sends appointment dates notification to the user.
+
+        This method is responsible for notifying the appointment dates to the user configured channels
+
+        Args:
+            dates (List[str]): A list of appointment dates.
+            appointment_params (Dict[str, str]): A dictionary containing appointment search criteria.
+        """
+        message = f"Found appointment(s) for {appointment_params.values()} on {', '.join(dates)}"
+        channels = get_config_value("notification", "channels")
+        if len(channels) == 0:
+            logging.warning(
+                "No notification channels configured. Skipping notification."
+            )
+            return
+
+        for channel in channels.split(","):
+            client = get_notification_client(channel)
+            client.send_notification(message)
 
     @abstractmethod
     def login(

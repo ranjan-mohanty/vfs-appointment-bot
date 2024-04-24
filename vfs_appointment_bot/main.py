@@ -6,6 +6,7 @@ import sys
 from typing import Dict
 
 from vfs_appointment_bot.utils.timer import countdown
+from vfs_appointment_bot.vfs_bot.vfs_bot import LoginError
 from vfs_appointment_bot.vfs_bot.vfs_bot_factory import (
     UnsupportedCountryError,
     get_vfs_bot,
@@ -76,21 +77,32 @@ def main() -> None:
         while True:
             vfs_bot = get_vfs_bot(country_code)
             vfs_bot.run(args)
-            countdown(120)  # Wait 2 minutes before next execution
+            countdown(
+                120, "Next appointment check in"
+            )  # Wait 2 minutes before next execution
 
-    except UnsupportedCountryError as e:
+    except (UnsupportedCountryError, LoginError) as e:
         logging.error(e)
     except Exception as e:
         logging.exception(e)
 
 
 def initialize_logger():
+    file_handler = logging.FileHandler("app.log", mode="a")
+    file_handler.setFormatter(
+        logging.Formatter(
+            "[%(asctime)s] %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+        )
+    )
+
+    stream_handler = logging.StreamHandler(sys.stdout)
+    stream_handler.setFormatter(logging.Formatter("[%(asctime)s] %(message)s"))
     logging.basicConfig(
         level=logging.INFO,
         format="[%(asctime)s] %(levelname)s [%(filename)s:%(lineno)d] %(message)s",
         handlers=[
-            logging.FileHandler("app.log", mode="a"),
-            logging.StreamHandler(sys.stdout),
+            file_handler,
+            stream_handler,
         ],
     )
 
