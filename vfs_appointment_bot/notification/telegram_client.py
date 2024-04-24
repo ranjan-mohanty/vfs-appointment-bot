@@ -43,4 +43,5 @@ class TelegramClient(NotificationClient):
 
         url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&parse_mode={parse_mode}&text={message}"
         response_json = requests.get(url).json()
+        logging.info(str(response_json))
         logging.debug(str(response_json))

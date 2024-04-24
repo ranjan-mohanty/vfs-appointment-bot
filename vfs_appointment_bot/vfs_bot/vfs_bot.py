@@ -8,6 +8,7 @@ from playwright.sync_api import sync_playwright
 from playwright_stealth import stealth_sync
 
 from vfs_appointment_bot.utils.config_reader import get_config_value
+from vfs_appointment_bot.notification.notification_client_factory import get_notification_client
 
 
 class VfsBot(ABC):
@@ -26,7 +27,7 @@ class VfsBot(ABC):
         self.country_code = None
         self.appointment_param_keys: List[str] = []
 
-    def run(self, args: argparse.Namespace = None) -> None:
+    def run(self, args: argparse.Namespace=None) -> None:
         """
         Starts the VFS bot for appointment checking and notification.
 
@@ -56,7 +57,7 @@ class VfsBot(ABC):
 
         # Launch browser and perform actions
         with sync_playwright() as p:
-            browser = getattr(p, browser_type).launch(headless=False)
+            browser = getattr(p, browser_type).launch(headless=True)
             page = browser.new_page()
             stealth_sync(page)
 
@@ -82,6 +83,19 @@ class VfsBot(ABC):
                 logging.info("No appointments found for the specified criteria.")
 
             browser.close()
+
+    def notify_appointment(self, dates: List[str]):
+        """
+            Collects appointment dates and sends notification to the user.
+
+            This method is responsible for collecting appointment dates and sending
+
+            Args:
+                dates (List[str]): A list of appointment dates.
+
+        """
+        channel = get_notification_client("telegram")
+        channel.send_notification(', '.join(dates))
 
     def get_appointment_params(self, args: argparse.Namespace) -> Dict[str, str]:
         """
