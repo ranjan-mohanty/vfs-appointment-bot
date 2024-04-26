@@ -12,25 +12,25 @@ class UnsupportedCountryError(Exception):
     pass
 
 
-def get_vfs_bot(country_code: str) -> VfsBot:
+def get_vfs_bot(source_country_code: str, destination_country_code: str) -> VfsBot:
     """Retrieves the appropriate VfsBot class for a given country.
 
     This function searches for a matching subclass of `VfsBot` based on the
-    provided country code or name (case-insensitive). If no matching class is
-    found, an `UnsupportedCountryError` exception is raised.
+    provided destination country code (ISO 3166-1 alpha-2).
+    If no matching class is found, an `UnsupportedCountryError` exception is raised.
 
     Args:
-        country_code (str): The ISO 3166-1 alpha-2 country code.
+        source_country_code (str): The ISO 3166-1 alpha-2 country code where you're applying from.
+        destination_country_code (str): The ISO 3166-1 alpha-2 country code where the appointment is needed.
 
     Returns:
-        VfsBot: An instance of the `VfsBot` subclass specific to the provided
-                 country.
+        VfsBot: An instance of the `VfsBot` subclass specific to the provided country.
 
     Raises:
         UnsupportedCountryError: If the provided country is not supported.
     """
 
-    country_lower = country_code.lower()
+    country_lower = destination_country_code.lower()
 
     if country_lower in COUNTRY_BOT_MAP:
         bot_class_name = COUNTRY_BOT_MAP[country_lower]
@@ -38,7 +38,8 @@ def get_vfs_bot(country_code: str) -> VfsBot:
             f"vfs_appointment_bot.vfs_bot.vfs_bot_{country_lower}"
         )
         bot_class = getattr(bot_module, bot_class_name)
-        return bot_class()
+        return bot_class(source_country_code)
     else:
-        logging.error(f"Country {country_code} is not currently supported.")
-        raise UnsupportedCountryError(f"Country {country_code} is not supported")
+        raise UnsupportedCountryError(
+            f"Country {destination_country_code} is not supported"
+        )

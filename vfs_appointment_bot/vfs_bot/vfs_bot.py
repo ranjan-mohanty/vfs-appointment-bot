@@ -32,10 +32,11 @@ class VfsBot(ABC):
         Initializes a VfsBot instance for a specific country.
 
         """
-        self.country_code = None
+        self.source_country_code = None
+        self.destination_country_code = None
         self.appointment_param_keys: List[str] = []
 
-    def run(self, args: argparse.Namespace = None) -> None:
+    def run(self, args: argparse.Namespace = None) -> bool:
         """
         Starts the VFS bot for appointment checking and notification.
 
@@ -46,14 +47,20 @@ class VfsBot(ABC):
         Args:
             args (argparse.Namespace, optional): Namespace object containing parsed
                 command-line arguments. Defaults to None.
+
+        Returns:
+            bool: True if appointments were found, False otherwise.
         """
 
-        logging.info(f"Starting VFS Bot for {self.country_code}")
+        logging.info(
+            f"Starting VFS Bot for {self.source_country_code.upper()}-{self.destination_country_code.upper()}"
+        )
 
         # Configuration values
         try:
             browser_type = get_config_value("browser", "type", "firefox")
-            vfs_url = get_config_value("vfs-url", self.country_code)
+            url_key = self.source_country_code + "-" + self.destination_country_code
+            vfs_url = get_config_value("vfs-url", url_key)
         except KeyError as e:
             logging.error(f"Missing configuration value: {e}")
             return
@@ -65,7 +72,7 @@ class VfsBot(ABC):
 
         # Launch browser and perform actions
         with sync_playwright() as p:
-            browser = getattr(p, browser_type).launch(headless=True)
+            browser = getattr(p, browser_type).launch(headless=False)
             page = browser.new_page()
             stealth_sync(page)
 
@@ -82,6 +89,7 @@ class VfsBot(ABC):
                 )
 
             logging.info(f"Checking appointments for {appointment_params}")
+            appointment_found = False
             try:
                 dates = self.check_for_appontment(page, appointment_params)
                 if dates:
@@ -90,6 +98,7 @@ class VfsBot(ABC):
                         f"\033[1;32mFound appointments on: {', '.join(dates)} \033[0m"
                     )
                     self.notify_appointment(appointment_params, dates)
+                    appointment_found = True
                 else:
                     # Log no appointments found
                     logging.info(
@@ -98,6 +107,7 @@ class VfsBot(ABC):
             except Exception as e:
                 logging.error(f"Appointment check failed: {e}")
             browser.close()
+            return appointment_found
 
     def get_appointment_params(self, args: argparse.Namespace) -> Dict[str, str]:
         """
@@ -135,7 +145,7 @@ class VfsBot(ABC):
             dates (List[str]): A list of appointment dates.
             appointment_params (Dict[str, str]): A dictionary containing appointment search criteria.
         """
-        message = f"Found appointment(s) for {appointment_params.values()} on {', '.join(dates)}"
+        message = f"Found appointment(s) for {', '.join(appointment_params.values())} on {', '.join(dates)}"
         channels = get_config_value("notification", "channels")
         if len(channels) == 0:
             logging.warning(
@@ -145,7 +155,10 @@ class VfsBot(ABC):
 
         for channel in channels.split(","):
             client = get_notification_client(channel)
-            client.send_notification(message)
+            try:
+                client.send_notification(message)
+            except Exception as e:
+                logging.error(f"Failed to send {channel} notification")
 
     @abstractmethod
     def login(

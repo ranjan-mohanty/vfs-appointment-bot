@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from twilio.rest import Client
@@ -80,6 +81,7 @@ class TwilioClient(NotificationClient):
         """
         client = Client(account_sid, auth_token)
         client.messages.create(to=to_num, from_=from_num, body=message)
+        logging.info("Message sent successfully!")
 
     def __call(
         self,
@@ -106,3 +108,4 @@ class TwilioClient(NotificationClient):
         if url:
             client = Client(account_sid, auth_token)
             client.calls.create(from_=from_num, to=to_num, url=url)
+            logging.info("Call request sent successfully!")

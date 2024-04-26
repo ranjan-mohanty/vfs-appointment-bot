@@ -30,11 +30,13 @@ def get_notification_client(channel: str) -> NotificationClient:
 
         return TelegramClient()
     elif channel == "slack":
-        from .twilio_client import (
-            TwilioClient,
-        )  # Might need to be adjusted based on actual implementation
+        from .twilio_client import TwilioClient
 
         return TwilioClient()
+    elif channel == "email":
+        from .email_client import EmailClient
+
+        return EmailClient()
     else:
         raise UnsupportedNotificationChannelError(
             f"Notification channel '{channel}' is not supported"

@@ -22,15 +22,20 @@ class VfsBotDe(VfsBot):
         parameters and extracts available dates from the website.
     """
 
-    def __init__(self):
+    def __init__(self, source_country_code: str):
         """
         Initializes a VfsBotDe instance for Germany.
 
-        This constructor sets the country code to "de" and defines
-        appointment parameter keys specific to the German VFS website.
+        This constructor sets the source country code and the destination country
+        code "de"(Germany). It also defines appointment parameter keys specific
+        to the destination country's VFS website.
+
+        Args:
+            source_country_code (str): The country code where you're applying from.
         """
         super().__init__()
-        self.country_code = "de"
+        self.source_country_code = source_country_code
+        self.destination_country_code = "de"
         self.appointment_param_keys = [
             "visa_center",
             "visa_category",
@@ -61,7 +66,7 @@ class VfsBotDe(VfsBot):
 
         page.get_by_role("button", name="Sign In").click()
 
-        page.wait_for_selector("button[role=button][name='Start New Booking']")
+        page.wait_for_selector("role=button >> text=Start New Booking")
         logging.info("Logged in successfully")
 
     def pre_login_steps(self, page: Page) -> None:
@@ -102,9 +107,9 @@ class VfsBotDe(VfsBot):
         page.get_by_role("button", name="Start New Booking").click()
 
         # Select Visa Centre
+
         visa_centre_dropdown = page.wait_for_selector("mat-form-field")
         visa_centre_dropdown.click()
-        page.wait_for_selector("mat-option")
         visa_centre_dropdown_option = page.wait_for_selector(
             f'mat-option:has-text("{appointment_params.get("visa_center")}")'
         )
@@ -113,27 +118,29 @@ class VfsBotDe(VfsBot):
         # Select Visa Category
         visa_category_dropdown = page.query_selector_all("mat-form-field")[1]
         visa_category_dropdown.click()
-        page.wait_for_selector("mat-option")
         visa_category_dropdown_option = page.wait_for_selector(
-            f'mat-option:has-text("{appointment_params.get("visa_sub_category")}")'
+            f'mat-option:has-text("{appointment_params.get("visa_category")}")'
         )
         visa_category_dropdown_option.click()
 
         # Select Subcategory
         visa_subcategory_dropdown = page.query_selector_all("mat-form-field")[2]
         visa_subcategory_dropdown.click()
-        page.wait_for_selector("mat-option")
         visa_subcategory_dropdown_option = page.wait_for_selector(
             f'mat-option:has-text("{appointment_params.get("visa_sub_category")}")'
         )
         visa_subcategory_dropdown_option.click()
 
         try:
-            appointment_date_element = page.wait_for_selector("div.alert")
-            appointment_date_text = appointment_date_element.text_content()
-            appointment_date = extract_date_from_string(appointment_date_text)
-            if appointment_date is not None and len(appointment_date) > 0:
-                return [appointment_date]
+            page.wait_for_selector("div.alert")
+            appointment_date_elements = page.query_selector_all("div.alert")
+            appointment_dates = []
+            for appointment_date_element in appointment_date_elements:
+                appointment_date_text = appointment_date_element.text_content()
+                appointment_date = extract_date_from_string(appointment_date_text)
+                if appointment_date is not None and len(appointment_date) > 0:
+                    appointment_dates.append(appointment_date)
+            return appointment_dates
         except Exception:
             return None
 

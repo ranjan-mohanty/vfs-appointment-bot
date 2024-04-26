@@ -5,6 +5,7 @@ from logging.config import fileConfig
 import sys
 from typing import Dict
 
+from vfs_appointment_bot.utils.config_reader import get_config_value
 from vfs_appointment_bot.utils.timer import countdown
 from vfs_appointment_bot.vfs_bot.vfs_bot import LoginError
 from vfs_appointment_bot.vfs_bot.vfs_bot_factory import (
@@ -53,10 +54,19 @@ def main() -> None:
     )
     required_args = parser.add_argument_group("required arguments")
     required_args.add_argument(
-        "-c",
-        "--country-code",
+        "-sc",
+        "--source-country-code",
         type=str,
-        help="The ISO 3166-1 alpha-2 country code (refer to README)",
+        help="The ISO 3166-1 alpha-2 source country code (refer to README)",
+        metavar="<country_code>",
+        required=True,
+    )
+
+    required_args.add_argument(
+        "-dc",
+        "--destination-country-code",
+        type=str,
+        help="The ISO 3166-1 alpha-2 destination country code (refer to README)",
         metavar="<country_code>",
         required=True,
     )
@@ -72,14 +82,17 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    country_code = args.country_code
+    source_country_code = args.source_country_code
+    destination_country_code = args.destination_country_code
     try:
         while True:
-            vfs_bot = get_vfs_bot(country_code)
-            vfs_bot.run(args)
+            vfs_bot = get_vfs_bot(source_country_code, destination_country_code)
+            appointment_found = vfs_bot.run(args)
+            if appointment_found:
+                break
             countdown(
-                120, "Next appointment check in"
-            )  # Wait 2 minutes before next execution
+                get_config_value("default", "interval"), "Next appointment check in"
+            )
 
     except (UnsupportedCountryError, LoginError) as e:
         logging.error(e)
