@@ -109,7 +109,7 @@ If you prefer a more traditional approach, you can clone the source code from th
      Specify appointment details in a comma-separated (**not space-separated**) key-value format:
 
      ```bash
-     vfs-appointment-bot -c DE -ap visa_center=X,visa_category=Y,visa_sub_category=Z
+     vfs-appointment-bot -sc IN -dc DE -ap visa_center=X,visa_category=Y,visa_sub_category=Z
      ```
 
    The script will then connect to the VFS Global website for the specified country, search for available appointments using the provided or entered parameters, and potentially send notifications (depending on your configuration).
