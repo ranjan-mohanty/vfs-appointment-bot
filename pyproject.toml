@@ -28,7 +28,7 @@ tqdm = "^4.66.2"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^7.0.0"
-black = "^22.3.2"
+black = "^24.4.2"
 
 #Entry points
 [tool.poetry.scripts]
