@@ -1,7 +1,7 @@
 # Project metadata
 [tool.poetry]
 name = "vfs-appointment-bot"
-version = "1.0.0rc1"
+version = "1.0.0"
 description = "VFS Appointment Bot - This script automates checking for appointments at VFS Global offices in a specified country."
 authors = ["Ranjan Mohanty <ranjan@duck.com>"]
 license = "MIT"
