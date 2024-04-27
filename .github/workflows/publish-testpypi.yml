@@ -2,7 +2,7 @@ name: Publish - TestPyPI
 on:
   push:
     tags:
-      - "**"
+      - '**'
 
 permissions:
   contents: read
@@ -39,7 +39,7 @@ jobs:
         with:
           repository-url: https://test.pypi.org/legacy/
   github-release:
-    if: ${{contains(github.ref, '-rc')}}
+    if: ${{contains(github.ref, 'rc')}}
     name: Release
     needs:
       - publish-to-testpypi
