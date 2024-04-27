@@ -27,7 +27,7 @@ twilio = "^9.0.4"
 tqdm = "^4.66.2"
 
 [tool.poetry.dev-dependencies]
-flake8 = "^4.0.1"
+flake8 = "^7.0.0"
 black = "^22.3.2"
 
 #Entry points
