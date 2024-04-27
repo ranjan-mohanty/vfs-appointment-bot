@@ -1,0 +1,12 @@
+[flake8]
+exclude = 
+    .git,
+    .github,
+    __pycache__,
+    venv,
+    dist,
+    config,
+    build
+
+max-complexity = 10
+max-line-length = 120
