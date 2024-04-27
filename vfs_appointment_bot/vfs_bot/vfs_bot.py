@@ -16,8 +16,6 @@ from vfs_appointment_bot.notification.notification_client_factory import (
 class LoginError(Exception):
     """Exception raised when login fails."""
 
-    pass
-
 
 class VfsBot(ABC):
     """
@@ -82,10 +80,11 @@ class VfsBot(ABC):
             try:
                 self.login(page, email_id, password)
                 logging.info("Logged in successfully")
-            except Exception as e:
+            except Exception:
                 browser.close()
                 raise LoginError(
-                    f"\033[1;31mLogin failed. Please verify your username and password by logging in to the browser and try again.\033[0m"
+                    "\033[1;31mLogin failed. "
+                    + "Please verify your username and password by logging in to the browser and try again.\033[0m"
                 )
 
             logging.info(f"Checking appointments for {appointment_params}")
@@ -157,7 +156,7 @@ class VfsBot(ABC):
             client = get_notification_client(channel)
             try:
                 client.send_notification(message)
-            except Exception as e:
+            except Exception:
                 logging.error(f"Failed to send {channel} notification")
 
     @abstractmethod
@@ -194,7 +193,6 @@ class VfsBot(ABC):
         Args:
             page (playwright.sync_api.Page): The Playwright page object used for browser interaction.
         """
-        pass  # Subclasses can implement optional pre-login steps
 
     @abstractmethod
     def check_for_appontment(

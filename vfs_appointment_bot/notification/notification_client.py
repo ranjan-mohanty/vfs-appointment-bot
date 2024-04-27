@@ -39,7 +39,6 @@ class NotificationClient(ABC):
         Args:
             message (str): The message content to be sent.
         """
-        pass
 
     def _validate_config(self, required_config_keys: list[str]):
         """
@@ -69,10 +68,6 @@ class NotificationClient(ABC):
 class NotificationClientConfigValidationError(Exception):
     """Exception raised when notification client configuration validation fails."""
 
-    pass
-
 
 class NotificationClientError(Exception):
     """Exception raised when an error occurs during notification sending."""
-
-    pass

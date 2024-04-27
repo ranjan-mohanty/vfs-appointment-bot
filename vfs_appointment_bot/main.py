@@ -1,7 +1,5 @@
 import argparse
 import logging
-from configparser import ConfigParser
-from logging.config import fileConfig
 import sys
 from typing import Dict
 

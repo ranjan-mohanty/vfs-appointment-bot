@@ -41,6 +41,9 @@ class TelegramClient(NotificationClient):
         chat_id: str = self.config.get("chat_id")
         parse_mode: str = self.config.get("parse_mode")
 
-        url = f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&parse_mode={parse_mode}&text={message}"
-        response_json = requests.get(url).json()
+        url = (
+            f"https://api.telegram.org/bot{bot_token}/sendMessage?"
+            + f"chat_id={chat_id}&parse_mode={parse_mode}&text={message}"
+        )
+        requests.get(url, timeout=3000).json()
         logging.info("Telegram message sent successfully!")

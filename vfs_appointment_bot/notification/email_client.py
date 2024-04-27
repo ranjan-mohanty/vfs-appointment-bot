@@ -5,7 +5,6 @@ from vfs_appointment_bot.notification.notification_client import NotificationCli
 
 
 class EmailClient(NotificationClient):
-
     def __init__(self):
         """
         Initializes the email client with configuration data.

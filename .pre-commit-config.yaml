@@ -12,3 +12,11 @@ repos:
   rev: v2.17.2
   hooks:
   - id: pylint
+- repo: https://github.com/pycqa/flake8
+  rev: ^4.0.1
+  hooks:
+  - id: flake8
+- repo: https://github.com/psf/black
+  rev: ^22.3.2
+  hooks:
+  - id: black

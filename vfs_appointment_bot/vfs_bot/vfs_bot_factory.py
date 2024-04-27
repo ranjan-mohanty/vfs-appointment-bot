@@ -1,15 +1,8 @@
-import logging
-from importlib import import_module
-
 from vfs_appointment_bot.vfs_bot.vfs_bot import VfsBot
-
-COUNTRY_BOT_MAP = {"de": "VfsBotDe"}
 
 
 class UnsupportedCountryError(Exception):
     """Raised when an unsupported country code is provided."""
-
-    pass
 
 
 def get_vfs_bot(source_country_code: str, destination_country_code: str) -> VfsBot:
@@ -32,13 +25,10 @@ def get_vfs_bot(source_country_code: str, destination_country_code: str) -> VfsB
 
     country_lower = destination_country_code.lower()
 
-    if country_lower in COUNTRY_BOT_MAP:
-        bot_class_name = COUNTRY_BOT_MAP[country_lower]
-        bot_module = import_module(
-            f"vfs_appointment_bot.vfs_bot.vfs_bot_{country_lower}"
-        )
-        bot_class = getattr(bot_module, bot_class_name)
-        return bot_class(source_country_code)
+    if country_lower == "de":
+        from .vfs_bot_de import VfsBotDe
+
+        return VfsBotDe(source_country_code)
     else:
         raise UnsupportedCountryError(
             f"Country {destination_country_code} is not supported"

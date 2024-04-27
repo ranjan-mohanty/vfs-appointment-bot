@@ -4,8 +4,6 @@ from vfs_appointment_bot.notification.notification_client import NotificationCli
 class UnsupportedNotificationChannelError(Exception):
     """Raised when an unsupported notification channel is provided."""
 
-    pass
-
 
 def get_notification_client(channel: str) -> NotificationClient:
     """Retrieves the appropriate notification client for a given channel.

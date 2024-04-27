@@ -1,6 +1,4 @@
-import datetime
 import logging
-import time
 from typing import Dict, List, Optional
 
 from playwright.sync_api import Page
@@ -65,9 +63,7 @@ class VfsBotDe(VfsBot):
         password_input.fill(password)
 
         page.get_by_role("button", name="Sign In").click()
-
         page.wait_for_selector("role=button >> text=Start New Booking")
-        logging.info("Logged in successfully")
 
     def pre_login_steps(self, page: Page) -> None:
         """

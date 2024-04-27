@@ -55,7 +55,7 @@ class TwilioClient(NotificationClient):
         self.__send_message(message, auth_token, account_sid, to_num, from_num)
 
         if call_enabled:
-            self.__call(url)
+            self.__call(url, auth_token, account_sid, to_num, from_num)
 
     def __send_message(
         self,
@@ -109,3 +109,5 @@ class TwilioClient(NotificationClient):
             client = Client(account_sid, auth_token)
             client.calls.create(from_=from_num, to=to_num, url=url)
             logging.info("Call request sent successfully!")
+        else:
+            logging.warning("No URL provided for call request!")
