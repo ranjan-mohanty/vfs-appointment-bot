@@ -70,7 +70,7 @@ class VfsBot(ABC):
 
         # Launch browser and perform actions
         with sync_playwright() as p:
-            browser = getattr(p, browser_type).launch(headless=False)
+            browser = getattr(p, browser_type).launch(headless=True)
             page = browser.new_page()
             stealth_sync(page)
 
