@@ -199,6 +199,10 @@ We welcome contributions from the community to improve this project! Here's how 
 - **Suggest improvements:** Do you have ideas for making the script more user-friendly or feature-rich? Feel free to create an issue or pull request on the repository.
 - **Submit pull requests:** If you've made code changes that you think would benefit the project, create a pull request on the repository. Please follow any contribution guidelines outlined in a CONTRIBUTING.md file.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=ranjan-mohanty/vfs-appointment-bot&type=Date)](https://star-history.com/#ranjan-mohanty/vfs-appointment-bot&Date)
+
 ## Disclaimer
 
 This script is provided as-is and is not affiliated with VFS Global. It's your responsibility to ensure you're complying with VFS Global's terms and conditions when using this script. Be aware that website structures and appointment availability mechanisms might change over time.
