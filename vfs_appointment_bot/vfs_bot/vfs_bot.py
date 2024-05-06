@@ -57,6 +57,7 @@ class VfsBot(ABC):
         # Configuration values
         try:
             browser_type = get_config_value("browser", "type", "firefox")
+            headless_mode = get_config_value("browser", "headless", "True")
             url_key = self.source_country_code + "-" + self.destination_country_code
             vfs_url = get_config_value("vfs-url", url_key)
         except KeyError as e:
@@ -70,7 +71,9 @@ class VfsBot(ABC):
 
         # Launch browser and perform actions
         with sync_playwright() as p:
-            browser = getattr(p, browser_type).launch(headless=True)
+            browser = getattr(p, browser_type).launch(
+                headless=headless_mode in ("True", "true")
+            )
             page = browser.new_page()
             stealth_sync(page)
 
