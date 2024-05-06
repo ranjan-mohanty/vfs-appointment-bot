@@ -8,6 +8,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/stargazers)
 
 <!--[![Downloads](https://static.pepy.tech/badge/vfs-appointment-bot)](https://pepy.tech/project/vfs-appointment-bot)-->
+
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ranjan-mohanty/vfs-appointment-bot/build.yml)](https://github.com/ranjan-mohanty/vfs-appointment-bot/actions/workflows/build.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/21f1ecd428ec4342980020a6ef383439)](https://app.codacy.com/gh/ranjan-mohanty/vfs-appointment-bot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/ranjan-mohanty/vfs-appointment-bot/badge)](https://securityscorecards.dev/viewer/?uri=github.com/ranjan-mohanty/vfs-appointment-bot)
@@ -160,10 +161,11 @@ It currently supports three notification channels to keep you informed about app
 
 The following table lists currently supported countries and their corresponding appointment parameters:
 
-| Country                 | Appointment Parameters                        |
-| ----------------------- | --------------------------------------------- |
-| India(IN) - Germany(DE) | visa_category, visa_sub_category, visa_center |
-| Iraq(IQ) - Germany(DE)  | visa_category, visa_sub_category, visa_center |
+| Country                 | Appointment Parameters                                      |
+| ----------------------- | ----------------------------------------------------------- |
+| India(IN) - Germany(DE) | visa_category, visa_sub_category, visa_center               |
+| Iraq(IQ) - Germany(DE)  | visa_category, visa_sub_category, visa_center               |
+| Morocco(MA) - Italy(IT) | visa_category, visa_sub_category, visa_center, payment_mode |
 
 **Notes:**
 
