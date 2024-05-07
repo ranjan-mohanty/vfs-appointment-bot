@@ -20,13 +20,35 @@ This Python script(**vfs-appointment-bot**) automates checking for appointments 
 
 ## Installation
 
-<!-- The `vfs-appointment-bot` script can be installed using two methods:
+The `vfs-appointment-bot` script can be installed using two methods:
 
 **1. Using pip:**
 
 It is the preferred method for installing `vfs-appointment-bot`. Here's how to do it:
 
-1.  **Install using pip:**
+1.  **Create a virtual environment (Recommended):**
+
+    ```bash
+    python3 -m venv venv
+    ```
+
+    This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
+
+2.  **Activate the virtual environment:**
+
+    **Linux/macOS:**
+
+    ```bash
+    source venv/bin/activate
+    ```
+
+    **Windows:**
+
+    ```bash
+    venv\Scripts\activate
+    ```
+
+3.  **Install using pip:**
 
     ```bash
     pip install vfs-appointment-bot
@@ -36,7 +58,7 @@ It is the preferred method for installing `vfs-appointment-bot`. Here's how to d
 
 **Manual Installation:**
 
-If you prefer a more traditional approach, you can clone the source code from the project repository and install it manually: -->
+For an alternative installation method, clone the source code from the project repository and install it manually.
 
 1.  **Clone the repository:**
 
@@ -85,10 +107,24 @@ If you prefer a more traditional approach, you can clone the source code from th
     playwright install
     ```
 
-## Usage
+## Configuration
 
-> **Pre-configuration:**  
-> Before running the script, ensure your update the vfs credentials and notification channel preferences in the config.ini file. See the [Notification Channels](#notification-channels) section for details on configuring email, Twilio, and Telegram notifications.
+1.  Download the [`config/config.ini`](https://raw.githubusercontent.com/ranjan-mohanty/vfs-appointment-bot/main/config/config.ini) template.
+
+    ```bash
+    curl -L https://raw.githubusercontent.com/ranjan-mohanty/vfs-appointment-bot/main/config/config.ini -o config.ini
+    ```
+
+2.  Update the vfs credentials and notification channel preferences. See the [Notification Channels](#notification-channels) section for details on configuring email, Twilio, and Telegram notifications.
+3.  Export the path of the config file to the environment variable `VFS_BOT_CONFIG_PATH`
+
+    ```bash
+    export VFS_BOT_CONFIG_PATH=<your-config-path>/config.ini
+    ```
+
+**If you installed the script by cloning the repository (manual installation)**, you can directly edit the values in `config/config.ini`.
+
+## Usage
 
 1. **Command-Line Argument:**
 

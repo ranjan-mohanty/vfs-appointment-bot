@@ -2,18 +2,16 @@ import os
 from configparser import ConfigParser
 from typing import Dict
 
-_config = None
+_config: ConfigParser = None
 
 
-def get_config_parser(config_dir="config"):
+def initialize_config(config_dir="config"):
     """
     Reads all INI configuration files in a directory and caches the result.
+    Also reads user config from `VFS_BOT_CONFIG_PATH` env var (if set)
 
     Args:
         config_dir: The directory containing configuration files (default: "config").
-
-    Returns:
-        A ConfigParser object loaded with configuration data.
     """
     global _config
     if not _config:
@@ -22,7 +20,11 @@ def get_config_parser(config_dir="config"):
             if entry.is_file() and entry.name.endswith(".ini"):
                 config_file_path = os.path.join(config_dir, entry.name)
                 _config.read(config_file_path)
-    return _config
+
+    # Read user defined config file
+    user_config_path = os.environ.get("VFS_BOT_CONFIG_PATH")
+    if user_config_path:
+        _config.read(user_config_path)
 
 
 def get_config_section(section: str, default: Dict = None) -> Dict:
@@ -37,9 +39,8 @@ def get_config_section(section: str, default: Dict = None) -> Dict:
         A dictionary containing the configuration for the specified section,
         or the provided default dictionary if the section is not found.
     """
-    config = get_config_parser()
-    if config.has_section(section):
-        return dict(config[section])
+    if _config.has_section(section):
+        return dict(_config[section])
     else:
         return default or {}
 
@@ -57,8 +58,7 @@ def get_config_value(section: str, key: str, default: str = None) -> str:
         The value associated with the given key within the specified section,
         or the provided default value if the section or key does not exist.
     """
-    config = get_config_parser()
-    if config.has_section(section) and config.has_option(section, key):
-        return config[section][key]
+    if _config.has_section(section) and _config.has_option(section, key):
+        return _config[section][key]
     else:
         return default

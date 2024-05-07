@@ -3,7 +3,7 @@ import logging
 import sys
 from typing import Dict
 
-from vfs_appointment_bot.utils.config_reader import get_config_value
+from vfs_appointment_bot.utils.config_reader import get_config_value, initialize_config
 from vfs_appointment_bot.utils.timer import countdown
 from vfs_appointment_bot.vfs_bot.vfs_bot import LoginError
 from vfs_appointment_bot.vfs_bot.vfs_bot_factory import (
@@ -46,6 +46,7 @@ def main() -> None:
         Exception: For any other unexpected errors encountered during execution.
     """
     initialize_logger()
+    initialize_config()
 
     parser = argparse.ArgumentParser(
         description="VFS Appointment Bot: Checks for appointments at VFS Global"
