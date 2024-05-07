@@ -33,13 +33,15 @@ class VfsBotIt(VfsBot):
         """
         super().__init__()
         self.source_country_code = source_country_code
-        self.destination_country_code = "it"
+        self.destination_country_code = "IT"
         self.appointment_param_keys = [
             "visa_center",
             "visa_category",
             "visa_sub_category",
-            "payment_mode",
         ]
+
+        if self.source_country_code == "MA":
+            self.appointment_param_keys.append("payment_mode")
 
     def login(self, page: Page, email_id: str, password: str) -> None:
         """
@@ -127,13 +129,14 @@ class VfsBotIt(VfsBot):
         )
         visa_subcategory_dropdown_option.click()
 
-        # Select Payment Mode
-        payment_mode_dropdown = page.query_selector_all("mat-form-field")[3]
-        payment_mode_dropdown.click()
-        payment_mode_dropdown_option = page.wait_for_selector(
-            f'mat-option:has-text("{appointment_params.get("payment_mode")}")'
-        )
-        payment_mode_dropdown_option.click()
+        if self.source_country_code == "MA":
+            # Select Payment Mode
+            payment_mode_dropdown = page.query_selector_all("mat-form-field")[3]
+            payment_mode_dropdown.click()
+            payment_mode_dropdown_option = page.wait_for_selector(
+                f'mat-option:has-text("{appointment_params.get("payment_mode")}")'
+            )
+            payment_mode_dropdown_option.click()
 
         try:
             page.wait_for_selector("div.alert")
