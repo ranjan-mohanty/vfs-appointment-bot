@@ -26,5 +26,9 @@ build/
 env/
 venv
 
-#Logs
+# Logs
 app.log
+
+# Local Config
+config.ini
+*.ini
