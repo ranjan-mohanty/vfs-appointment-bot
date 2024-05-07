@@ -3,11 +3,10 @@
 [![GitHub License](https://img.shields.io/github/license/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/blob/main/LICENSE)
 [![GitHub Release](https://img.shields.io/github/v/release/ranjan-mohanty/vfs-appointment-bot?logo=GitHub)](https://github.com/ranjan-mohanty/vfs-appointment-bot/releases)
 [![PyPI - Version](https://img.shields.io/pypi/v/vfs-appointment-bot?logo=pypi)](https://pypi.org/project/vfs-appointment-bot)
-![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2Franjan-mohanty%2Fvfs-appointment-bot.json&style=flat&logo=GitHub&label=views)
+[![Downloads](https://static.pepy.tech/badge/vfs-appointment-bot)](https://pepy.tech/project/vfs-appointment-bot)
+[![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2Franjan-mohanty%2Fvfs-appointment-bot.json&style=flat&logo=GitHub&label=views)](https://github.com/ranjan-mohanty/vfs-appointment-bot)
 [![GitHub forks](https://img.shields.io/github/forks/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/forks)
 [![GitHub Repo stars](https://img.shields.io/github/stars/ranjan-mohanty/vfs-appointment-bot)](https://github.com/ranjan-mohanty/vfs-appointment-bot/stargazers)
-
-<!--[![Downloads](https://static.pepy.tech/badge/vfs-appointment-bot)](https://pepy.tech/project/vfs-appointment-bot)-->
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ranjan-mohanty/vfs-appointment-bot/build.yml)](https://github.com/ranjan-mohanty/vfs-appointment-bot/actions/workflows/build.yml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/21f1ecd428ec4342980020a6ef383439)](https://app.codacy.com/gh/ranjan-mohanty/vfs-appointment-bot/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
@@ -22,105 +21,105 @@ This Python script(**vfs-appointment-bot**) automates checking for appointments 
 
 The `vfs-appointment-bot` script can be installed using two methods:
 
-**1. Using pip:**
+### 1. Using pip
 
 It is the preferred method for installing `vfs-appointment-bot`. Here's how to do it:
 
-1.  **Create a virtual environment (Recommended):**
+1. **Create a virtual environment (Recommended):**
 
-    ```bash
-    python3 -m venv venv
-    ```
+   ```bash
+   python3 -m venv venv
+   ```
 
-    This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
+   This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
 
-2.  **Activate the virtual environment:**
+2. **Activate the virtual environment:**
 
-    **Linux/macOS:**
+   **Linux/macOS:**
 
-    ```bash
-    source venv/bin/activate
-    ```
+   ```bash
+   source venv/bin/activate
+   ```
 
-    **Windows:**
+   **Windows:**
 
-    ```bash
-    venv\Scripts\activate
-    ```
+   ```bash
+   venv\Scripts\activate
+   ```
 
-3.  **Install using pip:**
+3. **Install using pip:**
 
-    ```bash
-    pip install vfs-appointment-bot
-    ```
+   ```bash
+   pip install vfs-appointment-bot
+   ```
 
-    This will download and install the `vfs-appointment-bot` package and its dependencies into your Python environment.
+   This will download and install the `vfs-appointment-bot` package and its dependencies into your Python environment.
 
-**Manual Installation:**
+### 2. Manual Installation
 
 For an alternative installation method, clone the source code from the project repository and install it manually.
 
-1.  **Clone the repository:**
+1. **Clone the repository:**
 
-    ```bash
-    git clone https://github.com/ranjan-mohanty/vfs-appointment-bot
-    ```
+   ```bash
+   git clone https://github.com/ranjan-mohanty/vfs-appointment-bot
+   ```
 
-2.  **Navigate to the project directory:**
+2. **Navigate to the project directory:**
 
-    ```bash
-    cd vfs-appointment-bot
-    ```
+   ```bash
+   cd vfs-appointment-bot
+   ```
 
-3.  **Create a virtual environment (Recommended):**
+3. **Create a virtual environment (Recommended):**
 
-    ```bash
-    python3 -m venv venv
-    ```
+   ```bash
+   python3 -m venv venv
+   ```
 
-    This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
+   This creates a virtual environment named `venv` to isolate project dependencies from your system-wide Python installation (**recommended**).
 
-4.  **Activate the virtual environment:**
+4. **Activate the virtual environment:**
 
-    **Linux/macOS:**
+   **Linux/macOS:**
 
-    ```bash
-    source venv/bin/activate
-    ```
+   ```bash
+   source venv/bin/activate
+   ```
 
-    **Windows:**
+   **Windows:**
 
-    ```bash
-    venv\Scripts\activate
-    ```
+   ```bash
+   venv\Scripts\activate
+   ```
 
-5.  **Install dependencies:**
+5. **Install dependencies:**
 
-    ```bash
-    pip install poetry
-    poetry install
-    ```
+   ```bash
+   pip install poetry
+   poetry install
+   ```
 
-6.  **Install playwright dependencies:**
+6. **Install playwright dependencies:**
 
-    ```bash
-    playwright install
-    ```
+   ```bash
+   playwright install
+   ```
 
 ## Configuration
 
-1.  Download the [`config/config.ini`](https://raw.githubusercontent.com/ranjan-mohanty/vfs-appointment-bot/main/config/config.ini) template.
+1. Download the [`config/config.ini`](https://raw.githubusercontent.com/ranjan-mohanty/vfs-appointment-bot/main/config/config.ini) template.
 
-    ```bash
-    curl -L https://raw.githubusercontent.com/ranjan-mohanty/vfs-appointment-bot/main/config/config.ini -o config.ini
-    ```
+   ```bash
+   curl -L https://raw.githubusercontent.com/ranjan-mohanty/vfs-appointment-bot/main/config/config.ini -o config.ini
+   ```
 
-2.  Update the vfs credentials and notification channel preferences. See the [Notification Channels](#notification-channels) section for details on configuring email, Twilio, and Telegram notifications.
-3.  Export the path of the config file to the environment variable `VFS_BOT_CONFIG_PATH`
+2. Update the vfs credentials and notification channel preferences. See the [Notification Channels](#notification-channels) section for details on configuring email, Twilio, and Telegram notifications.
+3. Export the path of the config file to the environment variable `VFS_BOT_CONFIG_PATH`
 
-    ```bash
-    export VFS_BOT_CONFIG_PATH=<your-config-path>/config.ini
-    ```
+   ```bash
+   export VFS_BOT_CONFIG_PATH=<your-config-path>/config.ini
+   ```
 
 **If you installed the script by cloning the repository (manual installation)**, you can directly edit the values in `config/config.ini`.
 
