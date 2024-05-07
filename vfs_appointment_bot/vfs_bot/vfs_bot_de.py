@@ -33,7 +33,7 @@ class VfsBotDe(VfsBot):
         """
         super().__init__()
         self.source_country_code = source_country_code
-        self.destination_country_code = "de"
+        self.destination_country_code = "DE"
         self.appointment_param_keys = [
             "visa_center",
             "visa_category",

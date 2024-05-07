@@ -23,13 +23,13 @@ def get_vfs_bot(source_country_code: str, destination_country_code: str) -> VfsB
         UnsupportedCountryError: If the provided country is not supported.
     """
 
-    country_lower = destination_country_code.lower()
+    country_lower = destination_country_code
 
-    if country_lower == "de":
+    if country_lower == "DE":
         from .vfs_bot_de import VfsBotDe
 
         return VfsBotDe(source_country_code)
-    elif country_lower == "it":
+    elif country_lower == "IT":
         from .vfs_bot_it import VfsBotIt
 
         return VfsBotIt(source_country_code)

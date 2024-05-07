@@ -3,7 +3,7 @@ import time
 from tqdm import tqdm
 
 
-def countdown(t, message="Countdown", unit="seconds"):
+def countdown(t: int, message="Countdown", unit="seconds"):
     """
     Implements a countdown timer
 

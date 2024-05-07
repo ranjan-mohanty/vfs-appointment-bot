@@ -90,7 +90,8 @@ def main() -> None:
             if appointment_found:
                 break
             countdown(
-                get_config_value("default", "interval"), "Next appointment check in"
+                int(get_config_value("default", "interval")),
+                "Next appointment check in",
             )
 
     except (UnsupportedCountryError, LoginError) as e:
