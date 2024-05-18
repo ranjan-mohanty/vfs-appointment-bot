@@ -12,7 +12,7 @@ We appreciate your help in keeping this project secure. If you discover a securi
 
 **1.2 Private Reporting:**
 
-- **We have enabled private vulnerability reporting on GitHub.** For vulnerabilities that should be kept confidential until a fix is released, please follow the steps outlined in the GitHub documentation: https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability
+- **We have enabled private vulnerability reporting on GitHub.** For vulnerabilities that should be kept confidential until a fix is released, please follow the steps outlined in the [GitHub documentation](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing/privately-reporting-a-security-vulnerability)
 
 - **Detailed Description:** Provide a detailed description of the vulnerability, including steps to reproduce it and potential impact.
 - **Confidentiality:** Keep the vulnerability confidential until a fix is released to prevent exploitation.

@@ -21,7 +21,7 @@ Thank you for investing your time in contributing to our project! We welcome con
 
 **3. Coding Style:**
 
-- Follow PEP 8 style guide for Python code ([https://peps.python.org/pep-0008/](https://peps.python.org/pep-0008/)).
+- Follow [PEP 8 style guide](https://peps.python.org/pep-0008/) for Python code.
 - Use consistent formatting and indentation.
 
 **4. License:**
