@@ -16,7 +16,7 @@ class VfsBotIt(VfsBot):
 
     - `login`: Fills the login form elements with email and password.
     - `pre_login_steps`: Rejects all cookie policies if presented.
-    - `check_for_appontment`: Performs appointment search based on provided
+    - `check_for_appointment`: Performs appointment search based on provided
         parameters and extracts available dates from the website.
     """
 
@@ -83,7 +83,7 @@ class VfsBotIt(VfsBot):
             policies_reject_button.click()
             logging.debug("Rejected all cookie policies")
 
-    def check_for_appontment(
+    def check_for_appointment(
         self, page: Page, appointment_params: Dict[str, str]
     ) -> Optional[List[str]]:
         """

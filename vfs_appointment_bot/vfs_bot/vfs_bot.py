@@ -93,7 +93,7 @@ class VfsBot(ABC):
             logging.info(f"Checking appointments for {appointment_params}")
             appointment_found = False
             try:
-                dates = self.check_for_appontment(page, appointment_params)
+                dates = self.check_for_appointment(page, appointment_params)
                 if dates:
                     # Log successful appointment finding
                     logging.info(
@@ -198,7 +198,7 @@ class VfsBot(ABC):
         """
 
     @abstractmethod
-    def check_for_appontment(
+    def check_for_appointment(
         self, page: playwright.sync_api.Page, appointment_params: Dict[str, str]
     ) -> List[str]:
         """
